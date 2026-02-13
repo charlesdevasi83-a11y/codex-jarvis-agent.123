@@ -1,38 +1,90 @@
-# JARVIS IA Total (Sans Vidéo)
+# JARVIS Web App (React + FastAPI)
 
-Ce dépôt fournit une base prête à l’emploi pour un assistant **JARVIS multimodal** (texte, audio, image, OCR, recherche, maps), avec une consigne stricte : **aucune génération vidéo**.
+Application web complète avec :
+- Frontend **React (Vite)** moderne
+- UI futuriste style **JARVIS**
+- Backend **FastAPI**
+- Développement local avec **hot reload** (frontend + backend)
 
-## Contenu
+## Structure
 
-- `prompts/jarvis_system_prompt.fr.md` : méga prompt système en français.
-- `docs/architecture.md` : architecture technique recommandée (frontend/backend/services).
-- `python/jarvis_multimodal_no_video.py` : script Python de base (chat + voix + STT/TTS).
-- `requirements.txt` : dépendances Python.
+```text
+app/
+  backend/
+    main.py
+    requirements.txt
+  frontend/
+    index.html
+    package.json
+    vite.config.js
+    src/
+      App.jsx
+      components/StatusPill.jsx
+      styles/jarvis.css
+Makefile
+```
 
-## Installation rapide
+## Prérequis
+
+- Python 3.10+
+- Node.js 18+
+- npm
+
+## Installation backend
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r app/backend/requirements.txt
 ```
 
-## Configuration
-
-Définissez votre clé API Gemini :
+## Installation frontend
 
 ```bash
-export GEMINI_API_KEY="VOTRE_CLE_API"
+cd app/frontend
+npm install
+cd ../..
 ```
 
-## Lancer JARVIS (CLI vocale)
+## Lancement local (hot reload)
+
+Ouvre **2 terminaux**.
+
+Terminal 1 (FastAPI avec reload) :
 
 ```bash
-python python/jarvis_multimodal_no_video.py
+make backend
 ```
 
-## Notes importantes
+Terminal 2 (React Vite avec reload) :
 
-- Le script inclut **STT/TTS local** et interaction de chat Gemini.
-- Les modules de recherche web/maps/édition d’image sont décrits dans l’architecture et peuvent être branchés côté backend selon votre stack.
-- Les fonctions vidéo (Veo, Veo 3, `video_spark`, `movie`, `video_library`) sont explicitement exclues.
+```bash
+make frontend
+```
+
+Ensuite ouvre :
+- Frontend : http://localhost:5173
+- API : http://localhost:8000/api/health
+
+## Développement temps réel
+
+- Toute modification dans `app/frontend/src/*` est rechargée instantanément dans le navigateur.
+- Toute modification dans `app/backend/main.py` redémarre automatiquement l’API grâce à `uvicorn --reload`.
+
+## Endpoints backend
+
+- `GET /api/health` : état du service.
+- `POST /api/chat` : endpoint de chat simple pour piloter des modes JARVIS.
+
+Exemple payload :
+
+```json
+{
+  "message": "Active le mode réflexion"
+}
+```
+
+## Contraintes
+
+- Cette base est orientée **JARVIS sans vidéo**.
+- Aucune fonctionnalité vidéo n’est implémentée.
