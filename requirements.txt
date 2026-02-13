@@ -1,0 +1,7 @@
+google-generativeai
+SpeechRecognition
+pyttsx3
+Pillow
+opencv-python
+fastapi
+uvicorn
